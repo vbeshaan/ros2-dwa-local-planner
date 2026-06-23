@@ -689,6 +689,6 @@ The visualization system provides clear insight into the planner's decision-maki
 
 ---
 
-**Contact:** [Your Email/GitHub]  
+**Contact:** vasanthakumareshaan@gmail.com / eshaanv2@illinois.edu
 **License:** MIT  
 **Last Updated:** February 6, 2026
