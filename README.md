@@ -28,29 +28,29 @@ This project implements a **Dynamic Window Approach (DWA) local planner** from s
 
 ### Key Features
 
-- ✅ **Real-time velocity sampling** within acceleration/deceleration limits
-- ✅ **Forward trajectory prediction** using kinematic simulation
-- ✅ **Multi-objective cost function** (goal distance, heading alignment, obstacle clearance, smoothness, forward speed preference, spin penalty, progress reward)
-- ✅ **LaserScan-based obstacle detection** with configurable safety margins
-- ✅ **RViz marker visualization** showing candidate trajectories (gray), collision trajectories (red), and the selected best trajectory (green)
-- ✅ **Goal-reaching behavior** with position tolerance and final orientation alignment
-- ✅ **Recovery behaviors** including reversing capability and blocked-ahead turn forcing
-- ✅ **Extensive parameter tuning** for robust navigation in tight spaces
+- **Real-time velocity sampling** within acceleration/deceleration limits
+- **Forward trajectory prediction** using kinematic simulation
+- **Multi-objective cost function** (goal distance, heading alignment, obstacle clearance, smoothness, forward speed preference, spin penalty, progress reward)
+- **LaserScan-based obstacle detection** with configurable safety margins
+- **RViz marker visualization** showing candidate trajectories (gray), collision trajectories (red), and the selected best trajectory (green)
+- **Goal-reaching behavior** with position tolerance and final orientation alignment
+- **Recovery behaviors** including reversing capability and blocked-ahead turn forcing
+- **Extensive parameter tuning** for robust navigation in tight spaces
 
 ---
 
 ## Assignment Checklist
 
-### ✅ Task 1: Set up ROS2 Humble Environment
-- [x] Installed ROS2 Humble and Gazebo 11
-- [x] Installed TurtleBot3 simulation packages
-- [x] Configured environment variables (`TURTLEBOT3_MODEL=burger`, `use_sim_time:=true`)
-- [x] Tested TurtleBot3 house world in Gazebo
+### Task 1: Set up ROS2 Humble Environment
+- Installed ROS2 Humble and Gazebo 11
+- Installed TurtleBot3 simulation packages
+- Configured environment variables (`TURTLEBOT3_MODEL=burger`, `use_sim_time:=true`)
+- Tested TurtleBot3 house world in Gazebo
 
-### ✅ Task 2: Implement Custom DWA Local Planner
-- [x] Implemented velocity sampling within dynamic constraints (velocity + acceleration limits)
-- [x] Created trajectory prediction function (`simulate_trajectory`) using forward kinematics
-- [x] Designed cost function with multiple terms:
+### Task 2: Implement Custom DWA Local Planner
+- Implemented velocity sampling within dynamic constraints (velocity + acceleration limits)
+- Created trajectory prediction function (`simulate_trajectory`) using forward kinematics
+- Designed cost function with multiple terms:
   - Distance to goal
   - Heading alignment to goal
   - Obstacle avoidance with soft clearance model
@@ -58,30 +58,30 @@ This project implements a **Dynamic Window Approach (DWA) local planner** from s
   - Speed preference (encourage forward motion)
   - Spin penalty (discourage excessive rotation)
   - Progress reward (prefer trajectories that reduce goal distance)
-- [x] Implemented collision detection using robot radius + safety margin
-- [x] Selected best velocity command based on minimum cost
+- Implemented collision detection using robot radius + safety margin
+- Selected best velocity command based on minimum cost
 
-### ✅ Task 3: Integrate with ROS2 Navigation Stack
-- [x] Subscribed to `/odom` (odometry feedback)
-- [x] Subscribed to `/scan` (LaserScan for obstacle detection)
-- [x] Subscribed to `/goal_pose` (PoseStamped goal input)
-- [x] Published velocity commands to `/cmd_vel`
-- [x] Published RViz MarkerArray to `/dwa_trajectories` showing:
+###Task 3: Integrate with ROS2 Navigation Stack
+- Subscribed to `/odom` (odometry feedback)
+- Subscribed to `/scan` (LaserScan for obstacle detection)
+- Subscribed to `/goal_pose` (PoseStamped goal input)
+- Published velocity commands to `/cmd_vel`
+- Published RViz MarkerArray to `/dwa_trajectories` showing:
   - Robot position (blue arrow)
   - Goal position (orange arrow)
   - Candidate trajectories (gray lines)
   - Collision trajectories (red lines)
   - Selected best trajectory (green line)
-- [x] Tested in Gazebo TurtleBot3 house world with static obstacles
+- Tested in Gazebo TurtleBot3 house world with static obstacles
 
-### ✅ Task 4: Expected Output
-- [x] TurtleBot navigates to goals while avoiding obstacles
-- [x] Logs meaningful debugging messages:
+###Task 4: Expected Output
+- TurtleBot navigates to goals while avoiding obstacles
+- Logs meaningful debugging messages:
   - Goal reception with coordinates and frame
   - TF transform failures (with warnings)
   - Cost evaluation details (via parameters)
-- [x] Provided comprehensive README with setup instructions (this document)
-- [x] Recorded video demonstration (see [Video Demonstration](#video-demonstration))
+- Provided comprehensive README with setup instructions (this document)
+- Recorded video demonstration (see [Video Demonstration](#video-demonstration))
 
 ---
 
@@ -388,10 +388,10 @@ if distance_to_goal < goal_tolerance:
 - Smooth trajectories with good visualization in RViz
 
 **Issues Identified:**
-- ❌ Robot kept very large distances from obstacles (too conservative)
-- ❌ Slow movement near walls
-- ❌ Would spin randomly when goal was near obstacles
-- ❌ Got stuck between parallel walls (corridors)
+- Robot kept very large distances from obstacles (too conservative)
+- Slow movement near walls
+- Would spin randomly when goal was near obstacles
+- Got stuck between parallel walls (corridors)
 
 ### Phase 2: Obstacle Cost Tuning
 
@@ -403,9 +403,9 @@ if distance_to_goal < goal_tolerance:
 - Reduced `safety_margin` from 5 cm to 2 cm
 
 **Results:**
-- ✅ Robot now passes closer to obstacles
-- ✅ Faster navigation through doorways
-- ⚠️ Still spinning issues near corners
+-Robot now passes closer to obstacles
+-Faster navigation through doorways
+- Still spinning issues near corners
 
 ### Phase 3: Speed & Spin Optimization
 
@@ -422,9 +422,9 @@ spin_cost = abs(w) + 0.5 * abs(w - w_prev)  # Penalize rotation + oscillation
 - `w_spin = 0.2` (gentle spin penalty, reduced from initial 0.4 to allow turning)
 
 **Results:**
-- ✅ Much faster forward motion
-- ✅ Reduced spinning behavior
-- ⚠️ Sometimes still "stares" at obstacles without turning
+-Much faster forward motion
+-Reduced spinning behavior
+- Sometimes still "stares" at obstacles without turning
 
 ### Phase 4: Front-Blocked Turn Forcing
 
@@ -438,9 +438,9 @@ if front_blocked and abs(w) < w_min_turn:
 ```
 
 **Results:**
-- ✅ Robot now decisively turns when blocked
-- ✅ No more "staring at walls"
-- ✅ Better reactive behavior in cluttered spaces
+-Robot now decisively turns when blocked
+-No more "staring at walls"
+-Better reactive behavior in cluttered spaces
 
 ### Phase 5: Progress Reward & Horizon Tuning
 
@@ -452,9 +452,9 @@ if front_blocked and abs(w) < w_min_turn:
 3. Increased angular velocity samples from 11 to 19 for finer turn resolution
 
 **Results:**
-- ✅ Consistent forward progress in corridors
-- ✅ Earlier obstacle detection (longer horizon)
-- ✅ Smoother turns (more angular samples)
+-Consistent forward progress in corridors
+-Earlier obstacle detection (longer horizon)
+-Smoother turns (more angular samples)
 
 ### Phase 6: Goal Alignment & Polish
 
@@ -470,10 +470,10 @@ if front_blocked and abs(w) < w_min_turn:
 - Added reversing capability for recovery from tight spots
 
 **Final Results:**
-- ✅ Precise goal reaching with correct orientation
-- ✅ Fast, confident navigation
-- ✅ Robust handling of tight spaces
-- ✅ Recovery from local minima
+-Precise goal reaching with correct orientation
+-Fast, confident navigation
+-Robust handling of tight spaces
+-Recovery from local minima
 
 ---
 
@@ -670,52 +670,7 @@ total_cost = (
 
 ---
 
-## Video Demonstration
 
-### 🎥 Proof of Life
-
-**Video:** `dwa_planner_demo.mp4` (included in submission)
-
-**Contents:**
-1. **Gazebo Environment** - TurtleBot3 in house world with furniture obstacles
-2. **RViz Visualization** - Real-time trajectory markers:
-   - Gray lines: candidate trajectories
-   - Red lines: collision trajectories
-   - Green line: selected best trajectory
-   - Blue arrow: robot position
-   - Orange arrow: goal position
-3. **Navigation Scenarios:**
-   - Open space goal reaching
-   - Obstacle avoidance (navigating around furniture)
-   - Corridor navigation (between parallel walls)
-   - Tight doorway passage
-   - Final orientation alignment at goal
-4. **Terminal Output** - Showing goal reception logs and planner status
-
-**Key Observations in Video:**
-- Robot smoothly navigates to multiple goals
-- Maintains safe clearance from obstacles (~8-10 cm)
-- Fast, decisive turning when blocked
-- Consistent forward progress through corridors
-- Precise goal pose matching (position + orientation)
-- No spinning or oscillation issues
-- RViz markers clearly show trajectory evaluation process
-
----
-
-## References
-
-1. Fox, D., Burgard, W., & Thrun, S. (1997). *The Dynamic Window Approach to Collision Avoidance*. IEEE Robotics & Automation Magazine.
-   
-2. ROS2 Humble Documentation: [https://docs.ros.org/en/humble/](https://docs.ros.org/en/humble/)
-
-3. TurtleBot3 e-Manual: [https://emanual.robotis.com/docs/en/platform/turtlebot3/](https://emanual.robotis.com/docs/en/platform/turtlebot3/)
-
-4. Gazebo ROS Plugins: [https://classic.gazebosim.org/tutorials?tut=ros2_overview](https://classic.gazebosim.org/tutorials?tut=ros2_overview)
-
-5. Dynamic Window Approach Tutorial: *Adaptive Agro Tech Lecture 10 - Local Path Planning with DWA*
-
----
 
 ## Conclusion
 
